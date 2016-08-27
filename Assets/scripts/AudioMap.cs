@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class AudioMap : MonoBehaviour {
+public class AudioMap {
 
-	public int bpm { set; get; } //bpm determines how slowly the map moves
-	public int[] highlights { set; get; } //
+	public float bpm { set; get; } //bpm determines how slowly the map moves
+	public System.DateTime[] beats { set; get; } //
 
 }

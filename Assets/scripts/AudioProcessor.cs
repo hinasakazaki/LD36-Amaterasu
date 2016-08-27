@@ -338,7 +338,7 @@ public class AudioProcessor : MonoBehaviour
         void onOnbeatDetected();
         void onSpectrum(float[] spectrum);
     }
-
+    
     // class to compute an array of online autocorrelators
     private class Autoco
     {
