@@ -13,6 +13,8 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	private System.DateTime _beginning;
 	public Text _loadingText;
 	public Animator[] flowers;
+	public GameObject petal;
+	public GameObject _bg;
 
 	public float Length; //length of this audio clip
 	public float Increments;
@@ -73,6 +75,19 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 			beatCount += 1;
 			beats.Add(System.DateTime.Now);
 		}
+		// spawn little petals
+		SpawnPetal();
+	}
+
+	void SpawnPetal() {
+		float y1 = 296f;
+		float y2 = 99f;
+		float x1 = 164f;
+		float x2 = 427;
+
+		var spawnPoint = new Vector2 (Random.Range (x1, x2), Random.Range (y1, y2));
+
+		Instantiate (petal, spawnPoint, Quaternion.identity);
 	}
 
 	public void onSpectrum(float[] spectrum)
