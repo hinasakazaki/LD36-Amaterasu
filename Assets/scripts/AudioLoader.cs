@@ -11,13 +11,14 @@ public class AudioLoader : MonoBehaviour
 	string _url; //has to be to .ogg
 	// https://upload.wikimedia.org/wikipedia/en/8/89/Daft_Punk_-_Get_Lucky.ogg
 
-	public void onEdited(string url) {
-		Debug.Log("edited "+  url);
-		_url = url;
+	void Start() {
+		_source = GetComponent<AudioSource>();
 	}
 
 	public void EnterButtonPressed()
 	{
+		_url = GetComponentInChildren<InputField>().text;
+		Debug.Log(_url);
 		StartCoroutine(StartDownload());
 	}
 	
@@ -30,8 +31,6 @@ public class AudioLoader : MonoBehaviour
 		WWW www = new WWW(_url);
 		
 		yield return www;
-
-		_source = GetComponent<AudioSource>();
 		_audio = www.GetAudioClip(false, false, AudioType.OGGVORBIS);
 		_audio.LoadAudioData();
 		_source.clip = _audio;
