@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /**
 Creates an instance of an Audio Map for the music that was entered.
@@ -10,8 +11,11 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	private AudioProcessor _processor;
 	private System.DateTime _beginning;
+	public Text _loadingText;
+	public Animator[] flowers;
 
 	public float Length; //length of this audio clip
+	public float Increments;
 
 	private ArrayList beats = new ArrayList();
 	private float beatCount = 0;
@@ -23,15 +27,42 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		_processor = FindObjectOfType<AudioProcessor>();
 		_processor.addAudioCallback(this);
 		_beginning = System.DateTime.Now;
+		Increments = Length/5; //for loading time
 		Debug.Log("length" + this.Length);
 	}
 
 	void Update()
 	{
-		if (!finished && _beginning != null && System.DateTime.Now.Subtract(_beginning).Seconds >= Length) //detecting end of song 
+		if (!finished && _beginning != null)
 		{	
-			GetComponent<AudioSource>().Stop();
-			FinishedSong();
+			float diff = System.DateTime.Now.Subtract(_beginning).Seconds; 
+			float diffPercent = (diff/Length)*100;
+			if (diffPercent > 100) {
+				diffPercent = 100;
+			}
+			_loadingText.text = "Loaded " + diffPercent + "%";
+
+			if (diff  >= Length) {
+				flowers[4].SetBool("loaded", true);
+				FinishedSong();
+			} else {
+				if (diffPercent > 100) {
+				}
+				else if (diffPercent > 80) {
+					flowers[3].SetBool("loaded", true);
+				}
+				else if (diffPercent > 60) {
+					flowers[2].SetBool("loaded", true);
+				}
+				else if (diffPercent > 40) {
+					flowers[1].SetBool("loaded", true);
+				}
+				else if (diffPercent > 20) {
+					flowers[0].SetBool("loaded", true);
+				} 
+			}
+
+			
 		}
 		//TODO Loading Bar using length
 	}
@@ -68,6 +99,7 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
     	finished = true;
 
     	Transform parent = this.transform.parent; //parent being canvas
+    	parent.GetComponent<AudioSource>().Stop();
     	foreach(Transform child in parent)
     	{
     		if (child.name == "Game") {

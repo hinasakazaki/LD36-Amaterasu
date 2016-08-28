@@ -18,13 +18,12 @@ public class AudioLoader : MonoBehaviour
 	public void EnterButtonPressed()
 	{
 		_url = GetComponentInChildren<InputField>().text;
-		Debug.Log(_url);
 		StartCoroutine(StartDownload());
 	}
 	
 	public IEnumerator StartDownload() 
 	{
-		if (_url == null) {
+		if (_url == "") {
 			//Maybe give a message about how you didnt enter Audio URL
 			_url = "https://upload.wikimedia.org/wikipedia/en/8/89/Daft_Punk_-_Get_Lucky.ogg"; //default
 		}
@@ -53,12 +52,10 @@ public class AudioLoader : MonoBehaviour
 
 	void onFinished() 
 	{
+
+	    _source.Play();
 		gameObject.AddComponent<AudioProcessor>();
-		gameObject.AddComponent<AudioMapper>();
-		gameObject.GetComponent<AudioMapper>().Length = _audio.length;
-		_source.Play();
-
-
+    	
     	foreach(Transform child in transform)
     	{
     		if (child.name == "Bg") {
@@ -66,9 +63,14 @@ public class AudioLoader : MonoBehaviour
     		}
     		else if (child.name == "Text") {
     			child.GetComponent<Text>().text = "Analyzing Audio for Game...";
+    			child.GetComponent<Text>().color = Color.white;
     		}
-    		else if (child.name == "InputField" || child.name == "Button") {
+    		else if (child.name == "InputField" || child.name == "Button" || child.name == "SubText") {
     			child.gameObject.SetActive (false);
+    		}
+    		else if (child.name == "Loading") {
+    			child.gameObject.SetActive(true);
+    			child.GetComponent<AudioMapper>().Length = _audio.length;
     		}
     	}
 		this.enabled = false;
