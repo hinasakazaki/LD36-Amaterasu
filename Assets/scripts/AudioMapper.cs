@@ -14,7 +14,8 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	public Text _loadingText;
 	public Animator[] flowers;
 	public GameObject petal;
-	public GameObject _bg;
+	public GameObject sparkle1;
+	public GameObject sparkle2;
 
 	public float Length; //length of this audio clip
 	public float Increments;
@@ -81,13 +82,26 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	void SpawnPetal() {
 		float y1 = 296f;
-		float y2 = 99f;
+		float y2 = 200f;
 		float x1 = 164f;
 		float x2 = 427;
 
 		var spawnPoint = new Vector2 (Random.Range (x1, x2), Random.Range (y1, y2));
 
 		Instantiate (petal, spawnPoint, Quaternion.identity);
+		
+		if (Random.Range(0, 5) ==  2)  {
+			var spawnPoint2 = new Vector2 (Random.Range (x1, x2), Random.Range (y1, 99f));
+			GameObject sparkleOne = Instantiate (sparkle1, spawnPoint2, Quaternion.identity) as GameObject;
+			sparkleOne.GetComponent<Transform>().parent = this.gameObject.transform;
+		}
+
+		if (Random.Range(0, 5) == 3) {
+			var spawnPoint3 = new Vector2 (Random.Range (x1, x2), Random.Range (y1, 99f));
+			GameObject sparkleTwo = Instantiate (sparkle2, spawnPoint3, Quaternion.identity) as GameObject;
+			sparkleTwo.GetComponent<Transform>().parent = this.gameObject.transform;
+		}
+
 	}
 
 	public void onSpectrum(float[] spectrum)
