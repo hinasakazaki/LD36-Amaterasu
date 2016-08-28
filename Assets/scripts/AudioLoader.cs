@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class AudioLoader : MonoBehaviour
 {
@@ -57,6 +58,20 @@ public class AudioLoader : MonoBehaviour
 		gameObject.AddComponent<AudioMapper>();
 		gameObject.GetComponent<AudioMapper>().Length = _audio.length;
 		_source.Play();
+
+
+    	foreach(Transform child in transform)
+    	{
+    		if (child.name == "Bg") {
+    			child.GetComponent<SpriteRenderer>().color = Color.black;
+    		}
+    		else if (child.name == "Text") {
+    			child.GetComponent<Text>().text = "Analyzing Audio for Game...";
+    		}
+    		else if (child.name == "InputField" || child.name == "Button") {
+    			child.gameObject.SetActive (false);
+    		}
+    	}
 		this.enabled = false;
 	}
 }

@@ -13,8 +13,8 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public float Length; //length of this audio clip
 
-	private ArrayList beats;
-	private float beatCount;
+	private ArrayList beats = new ArrayList();
+	private float beatCount = 0;
 
 	private bool finished = false;
 
@@ -38,8 +38,10 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public void onOnbeatDetected() 
 	{
-		beatCount += 1;
-		beats.Add(System.DateTime.Now);
+		if (this.enabled == true) {
+			beatCount += 1;
+			beats.Add(System.DateTime.Now);
+		}
 	}
 
 	public void onSpectrum(float[] spectrum)
@@ -65,9 +67,16 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
     	Debug.Log("bpm" + map.bpm);
     	finished = true;
 
-    	GameObject parent = this.transform.parent.gameObject; //parent being canvas
-    	Game game = parent.GetComponent<Game>();
-    	game._map = map;
+    	Transform parent = this.transform.parent; //parent being canvas
+    	foreach(Transform child in parent)
+    	{
+    		if (child.name == "Game") {
+    			child.gameObject.SetActive(true);
+    			Game game = child.GetComponent<Game>();
+				game.enabled = true;
+    			game._map = map;
+    		}
+    	}
 
     	//map.highlights = this.highlights;
     }
