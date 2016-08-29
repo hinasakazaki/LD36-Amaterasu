@@ -7,6 +7,8 @@ using System.Collections.Generic;
 **/
 public class BackgroundScript : MonoBehaviour 
 {
+	public bool started;
+
 	private float _scrollSpeed;
 	private Vector3 startPosition;
 	//background is a 3200x600px moving horizontally - only x changes
@@ -20,12 +22,14 @@ public class BackgroundScript : MonoBehaviour
 
 	void Update ()
 	{
-		Debug.Log(transform.position.x);
-		if (transform.position.x > -120) {
-			float newPosition = Mathf.Repeat(Time.time * _scrollSpeed, 1000);
-			transform.position = startPosition + Vector3.left * newPosition;
-		} else {
-			transform.position = startPosition;
+		if (started) {
+			Debug.Log(transform.position.x);
+			if (transform.position.x > -120) {
+				float newPosition = Mathf.Repeat(Time.time * _scrollSpeed, 1000);
+				transform.position = startPosition + Vector3.left * newPosition;
+			} else {
+				transform.position = startPosition;
+			}
 		}
 	}
 }
