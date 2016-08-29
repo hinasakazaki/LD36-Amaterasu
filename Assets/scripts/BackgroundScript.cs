@@ -23,8 +23,7 @@ public class BackgroundScript : MonoBehaviour
 	void Update ()
 	{
 		if (started) {
-			Debug.Log(transform.position.x);
-			if (transform.position.x > -120) {
+			if (transform.position.x > 300) {
 				float newPosition = Mathf.Repeat(Time.time * _scrollSpeed, 1000);
 				transform.position = startPosition + Vector3.left * newPosition;
 			} else {
