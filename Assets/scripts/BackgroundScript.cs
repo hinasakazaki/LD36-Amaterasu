@@ -14,13 +14,18 @@ public class BackgroundScript : MonoBehaviour
 		float bpm = 120;
 		float bpmInSeconds = 60 / bpm;
 		//(gameObject.transform.parent.GetComponent<Game>())._map.bpm;
-		_scrollSpeed = bpm/60;
+		_scrollSpeed = bpm/5;
 		startPosition = transform.position;
 	}
 
 	void Update ()
 	{
-		float newPosition = Mathf.Repeat(Time.time * _scrollSpeed, 1000);
-		transform.position = startPosition + Vector3.left * newPosition;
+		Debug.Log(transform.position.x);
+		if (transform.position.x > -120) {
+			float newPosition = Mathf.Repeat(Time.time * _scrollSpeed, 1000);
+			transform.position = startPosition + Vector3.left * newPosition;
+		} else {
+			transform.position = startPosition;
+		}
 	}
 }

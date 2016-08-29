@@ -45,7 +45,7 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 			}
 			_loadingText.text = "Loaded " + diffPercent + "%";
 
-			if (diff  >= Length) {
+			if (diff  >= Length) { //finished
 				flowers[4].SetBool("loaded", true);
 				FinishedSong();
 			} else {
@@ -127,18 +127,24 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
     	Debug.Log("bpm" + map.bpm);
     	finished = true;
 
-    	Transform parent = this.transform.parent; //parent being canvas
-    	parent.GetComponent<AudioSource>().Stop();
-    	foreach(Transform child in parent)
+    	Transform parent = this.transform.parent; //parent being menu
+    	parent.GetComponent<AudioSource>().Stop(); //get manu's sound source to stop
+
+    	//try to make a button before 
+
+    	foreach(Transform child in parent.parent) //now go through canvas'schildren
     	{
     		if (child.name == "Game") {
     			child.gameObject.SetActive(true);
+    			child.gameObject.GetComponent<AudioSource>().clip = parent.GetComponent<AudioSource>().clip;
     			Game game = child.GetComponent<Game>();
 				game.enabled = true;
     			game._map = map;
     		}
     	}
 
-    	//map.highlights = this.highlights;
+    	parent.gameObject.SetActive(false);
+    	this.gameObject.SetActive(false);
+
     }
 }

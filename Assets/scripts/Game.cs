@@ -17,14 +17,15 @@ public class Game : MonoBehaviour
 	void Start() {
 		//start scrolling
 		gameObject.GetComponentInChildren<BackgroundScript>().enabled = true;
+		GetComponent<AudioSource>().Play();
 		animateElements();
 
 	}
 
 	void animateElements() {
 		Debug.Log("Animating Elements" + _map.bpm);
-		_sun.GetComponent<Animator>().speed = _map.bpm;
-		_ama.GetComponent<Animator>().speed = _map.bpm;
-		_rice.GetComponent<Animator>().speed = _map.bpm;
+		_sun.GetComponent<Animator>().speed = _map.bpm/160;
+		_ama.GetComponent<Animator>().speed = _map.bpm/160;
+		_rice.GetComponent<Animator>().speed = _map.bpm/160;
 	}
 }
