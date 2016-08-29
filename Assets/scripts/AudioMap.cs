@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class AudioMap {
 
 	public float bpm { set; get; } //bpm determines how slowly the map moves
-	public System.DateTime[] beats { set; get; } //
+	public float[] beats { set; get; } //
 
 }

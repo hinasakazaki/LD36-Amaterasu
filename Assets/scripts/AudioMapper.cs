@@ -74,7 +74,7 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	{
 		if (this.enabled == true) {
 			beatCount += 1;
-			beats.Add(System.DateTime.Now);
+			beats.Add(System.DateTime.Now.Subtract(_beginning).Seconds);
 		}
 		// spawn little petals
 		SpawnPetal();
@@ -123,7 +123,7 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
     private void FinishedSong() {
     	AudioMap map = new AudioMap();
     	map.bpm = beatCount*60/Length;
-    	map.beats = (System.DateTime[]) (this.beats).ToArray(typeof(System.DateTime));
+    	map.beats = (float[]) (this.beats).ToArray(typeof(float));
     	Debug.Log("bpm" + map.bpm);
     	finished = true;
 
@@ -136,10 +136,11 @@ public class AudioMapper : MonoBehaviour, AudioProcessor.AudioCallbacks {
     	{
     		if (child.name == "Game") {
     			child.gameObject.SetActive(true);
-    			child.gameObject.GetComponent<AudioSource>().clip = parent.GetComponent<AudioSource>().clip;
+    			//child.gameObject.GetComponent<AudioSource>().clip = parent.GetComponent<AudioSource>().clip;
     			Game game = child.GetComponent<Game>();
 				game.enabled = true;
     			game._map = map;
+    			game._audio = parent.GetComponent<AudioSource>().clip;
     		}
     	}
 
